@@ -4,6 +4,7 @@ This project aims to build a Fake News Detection system using machine learning t
 
 
 ## Directory Structure
+```
 cmse492_project/
 ├── README.md # Project overview and documentation
 ├── .gitignore # Files and folders to ignore in version control
@@ -19,7 +20,7 @@ cmse492_project/
 ├── figures/ # Generated plots and figures
 ├── docs/ # Documentation or project report
 └── requirements.txt # List of dependencies
-
+```
 
 ## Setup Instructions
 **Clone the repository:**
