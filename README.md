@@ -19,7 +19,7 @@ cmse492_project/
 ├── figures/ # Generated plots and figures
 ├── docs/ # Documentation or project report
 └── requirements.txt # List of dependencies
----
+
 
 ## Setup Instructions
 **Clone the repository:**
