@@ -29,7 +29,7 @@ def train_logistic_regression():
 
     
     # vectorizer
-    vectorizer = TfidfVectorizer(max_features=50000)
+    vectorizer = TfidfVectorizer(max_features=5000)
     X_train_vec = vectorizer.fit_transform(X_train)
     X_test_vec = vectorizer.transform(X_test)
 
