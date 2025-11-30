@@ -18,6 +18,16 @@ def train_logistic_regression():
     X_test = pd.read_csv(os.path.join(PROCESSED, "X_test.csv"))["clean_text"]
     y_test = pd.read_csv(os.path.join(PROCESSED, "y_test.csv"))
 
+
+    train_df = pd.concat([X_train, y_train], axis=1).dropna()
+    X_train = train_df["clean_text"].astype(str)
+    y_train = train_df[y_train.columns[0]].values.ravel()
+
+    test_df = pd.concat([X_test, y_test], axis=1).dropna()
+    X_test = test_df["clean_text"].astype(str)
+    y_test = test_df[y_test.columns[0]].values.ravel()
+
+    
     # vectorizer
     vectorizer = TfidfVectorizer(max_features=50000)
     X_train_vec = vectorizer.fit_transform(X_train)

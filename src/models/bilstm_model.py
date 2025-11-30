@@ -1,5 +1,4 @@
 # src/models/bilstm_model.py
-
 import os
 import time
 import pandas as pd
@@ -18,10 +17,32 @@ MAX_LEN = 300
 
 def train_bilstm():
 
-    X_train = pd.read_csv(os.path.join(PROCESSED, "X_train.csv"))["clean_text"]
+    # Load data
+    X_train = pd.read_csv(os.path.join(PROCESSED, "X_train.csv"))
     y_train = pd.read_csv(os.path.join(PROCESSED, "y_train.csv"))
-    X_test = pd.read_csv(os.path.join(PROCESSED, "X_test.csv"))["clean_text"]
+    X_test = pd.read_csv(os.path.join(PROCESSED, "X_test.csv"))
     y_test = pd.read_csv(os.path.join(PROCESSED, "y_test.csv"))
+
+    # Make sure column exists
+    if "clean_text" not in X_train.columns:
+        # fallback: use first column
+        X_train = X_train.iloc[:, 0]
+        X_test = X_test.iloc[:, 0]
+    else:
+        X_train = X_train["clean_text"]
+        X_test = X_test["clean_text"]
+
+    # Drop missing values
+    mask_train = X_train.notna()
+    mask_test = X_test.notna()
+    X_train = X_train[mask_train]
+    y_train = y_train[mask_train]
+    X_test = X_test[mask_test]
+    y_test = y_test[mask_test]
+
+    # Convert to string
+    X_train = X_train.astype(str)
+    X_test = X_test.astype(str)
 
     # Tokenize
     tokenizer = Tokenizer(num_words=MAX_WORDS, oov_token="<OOV>")
@@ -33,21 +54,17 @@ def train_bilstm():
     X_train_pad = pad_sequences(X_train_seq, maxlen=MAX_LEN)
     X_test_pad = pad_sequences(X_test_seq, maxlen=MAX_LEN)
 
-    # Model
+    # Build model
     model = Sequential([
         Embedding(MAX_WORDS, 128, input_length=MAX_LEN),
-        Bidirectional(LSTM(128, return_sequences=False)),
+        Bidirectional(LSTM(128)),
         Dropout(0.3),
         Dense(64, activation="relu"),
         Dropout(0.3),
         Dense(1, activation="sigmoid")
     ])
 
-    model.compile(
-        loss="binary_crossentropy",
-        optimizer="adam",
-        metrics=["accuracy"]
-    )
+    model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
 
     start = time.time()
     history = model.fit(
@@ -61,11 +78,24 @@ def train_bilstm():
 
     test_loss, test_acc = model.evaluate(X_test_pad, y_test)
 
-    # save
-    os.makedirs(MODELS, exist_ok=True)
-    model.save(os.path.join(MODELS, "bilstm_model.h5"))
+    # Save model and tokenizer
 
+    import joblib
+    os.makedirs(MODELS, exist_ok=True)
+
+    # Save BiLSTM model
+    model.save(os.path.join(MODELS, "bilstm_model.h5"))      # legacy HDF5
+    # or use newer format:
+    # model.save(os.path.join(MODELS, "bilstm_model.keras"))
+
+    # Save the tokenizer
+    joblib.dump(tokenizer, os.path.join(MODELS, "tokenizer.pkl"))
+
+# ===========================
+# Then return results
+# ===========================
     return train_time, test_acc, history.history
+
 
 if __name__ == "__main__":
     train_bilstm()
