@@ -9,12 +9,13 @@ This project aims to build a Fake News Detection system using machine learning t
 ```
 cmse492_project/
 ├── README.md # Project overview and documentation
-├── .gitignore # Files and folders to ignore in version control
+├── .gitignore # Files and folders ignored by git
 ├── data/
 │ ├── raw/ # Original datasets (unmodified)
 │ └── processed/ # Cleaned and preprocessed datasets
 ├── notebooks/
 │ └── exploratory/ # Jupyter notebooks for EDA and experiments
+│ └── results/ # Notebook summarizing final model evaluation
 ├── src/
 │ ├── preprocessing/ # Scripts for data cleaning and text preprocessing
 │ ├── models/ # Model training and tuning scripts
@@ -33,7 +34,10 @@ cmse492_project/
    pip install -r requirements.txt
 
 
-   
+## How to Run
+### 1. Data Preprocessing
+Run scripts in `src/preprocessing/` to clean and prepare the datasets.  
+This will generate the processed CSV files in `data/processed/`.
 =======
 # cmse492_project
 >>>>>>> ec823b5 (Update notebook and project folders)
