@@ -1,0 +1,2 @@
+Model,Accuracy,Precision,Recall,F1 Score,Training Time (s),Inference Time (s),Hardware
+Linear SVM,0.9938865617570475,0.9932369402985075,0.9941643323996265,0.9937004199720019,12.3,0.8,"CPU: Intel i7, RAM: 16GB"
