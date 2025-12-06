@@ -48,6 +48,58 @@ cmse492_project/
 └── requirements.txt # List of dependencies
 ```
 
+## Preprocessing & Exploratory Data Analysis (EDA)
+
+This section summarizes the preprocessing steps, feature engineering, and exploratory analysis performed on the Fake and Real News Dataset.
+
+### 1. Handling Missing Values
+- Less than 0.2% of rows had missing `title` or `text`.  
+- These rows were removed to avoid introducing noise during model training.
+
+### 2. Text Cleaning
+- Converted all text to lowercase.  
+- Removed punctuation, special characters, and extra whitespace.  
+- English stopwords removed during TF-IDF vectorization.
+
+### 3. Feature Engineering
+- Added `text_length`: number of words in the article body.  
+- Used for exploratory data analysis and to understand differences between real and fake news.
+
+### 4. Target Encoding
+- `label` column encoded as: `1 = REAL`, `0 = FAKE`.
+
+### 5. Train/Test Split
+- Stratified split: 80% training, 20% testing, preserving class balance.  
+- Split performed **before** TF-IDF vectorization.
+
+### 6. Text Vectorization
+- TF-IDF applied with `max_features=5000` and English stopwords.  
+- Vectorized features used for Logistic Regression, Linear SVM, and BiLSTM models.
+
+---
+
+### EDA Summary
+
+- **Class Distribution**:
+  - Real news: 21,417  
+  - Fake news: 23,481  
+  - Classes are approximately balanced.  
+
+- **Text Length Distribution**:
+  - Articles range from ~5 to ~5,000 words.  
+  - Median text length: ~350 words.  
+  - Fake news articles are slightly shorter on average.  
+
+- **Missing Values**: Minimal, no imputation required.
+
+- **Visualizations** (saved in `figures/` folder):
+  - `class_distribution.png` — class counts (real vs fake)  
+  - `text_length_distribution.png` — histogram of text lengths  
+  - `text_length_by_class.png` — boxplot of text length by class  
+  - `missing_values_heatmap.png` — heatmap of missing values
+
+
+
 ## Setup Instructions
 **Clone the repository:**
 ```bash
