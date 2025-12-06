@@ -2,6 +2,30 @@
 
 This project aims to build a Fake News Detection system using machine learning techniques to automatically classify online news articles as real or fake. Using the Fake.csv and True.csv datasets, I will preprocess data including the title, body text, subject, and publish date of each news article to prepare it for analysis. The project will explore both classical machine learning models, such as Logistic Regression and Support Vector Machines, and deep learning approaches to evaluate which methods perform best at detecting misinformation.
 
+## Dataset
+The dataset used for this project consists of labeled news articles collected from a combination of verified and unverified online media sources. The **Fake and Real News Dataset** was originally compiled to support research in misinformation detection and natural language processing. It contains **44,898 news articles** published by both credible organizations (e.g., Reuters, BBC, The Guardian) and sources known for disseminating fabricated or misleading stories. Each article includes the full text and a binary label indicating whether it is real or fake, based on verification against fact-checking databases and source credibility assessments.  
+
+The dataset’s purpose is to provide a reliable foundation for developing machine learning models capable of identifying deceptive content patterns in digital journalism.
+
+### Dataset Characteristics
+- **Number of samples (rows):** 44,898 articles  
+- **Number of features (columns):** 4  
+  - `title` — the headline of the article  
+  - `text` — full body text of the article  
+  - `subject` — topic category (e.g., politics, technology)  
+  - `label` — binary indicator of news veracity: `1 = REAL`, `0 = FAKE`  
+- **Data types:** Primarily textual, with one categorical target variable  
+
+### Data Quality
+#### Missing Values
+- Missing values are minimal: less than 0.2% of rows have missing `title` or `text`.  
+- These rows were removed to avoid introducing noise during model training.  
+- The remaining dataset is complete and suitable for text analysis.
+
+#### Class Balance
+- Real news articles: 21,417  
+- Fake news articles: 23,481  
+- The dataset is approximately balanced. Stratified splitting is used during training/testing to maintain this balance.
 
 
 ## Directory Structure
